@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
     borderRadius: 10,
+    backgroundColor: 'white'
   },
   summaryText:{
     fontFamily:"open-sans-bold",
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
   },
   amount:{
     color: Colors.primary
-
   }
 });
 
