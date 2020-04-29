@@ -7,12 +7,15 @@ import OrderItem from "../../components/shop/OrderItem";
 import HeaderButton from "../../components/UI/HeaderButton";
 
 const OrdersScreen = props => {
-  const orders = useSelector(state => state.orders.orders);
+  const orders = useSelector(state => {
+    return state.orders.orders
+  });
+
   return (
    <FlatList 
       data={orders} 
       keyExtractor={Item=> Item.id}
-      renderItem={itemData => <OrderItem amount={itemData.item.totalAmount} date={itemData.item.readableDate} />}
+      renderItem={itemData => <OrderItem items={itemData.item.items} amount={itemData.item.totalAmount} date={itemData.item.readableDate} />}
     />
   );
 };
