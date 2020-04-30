@@ -5,6 +5,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import {Ionicons} from "@expo/vector-icons";
 import { Platform } from "react-native";
 
+import EditProductScreen from "../screens/user/EditProductScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
@@ -59,7 +60,8 @@ const OrdersNavigator = createStackNavigator({
 });
 
 const AdminNavigator = createStackNavigator({
-  UserProducts:UserProductsScreen
+  UserProducts: UserProductsScreen,
+  EditProduct: EditProductScreen
 },{
   navigationOptions: {
     drawerIcon: drawerConfig => 
