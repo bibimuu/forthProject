@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useReducer } from "react";
+import React, { useState,useCallback, useEffect, useReducer } from "react";
 import {View, 
         KeyboardAvoidingView, 
         StyleSheet, 
-        TextInput, 
         ScrollView, 
         Platform,
-        Alert
+        Alert,
+        ActivityIndicator
       }from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Input from "../../components/UI/Input";
 import * as productActions from "../../store/actions/products";
 import HeaderButton from "../../components/UI/HeaderButton";
+import Colors from "../../constants/Colors";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -41,6 +42,9 @@ const formReducer = (state, action) => {
 
 const EditProductScreen = props => {
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error,setError] = useState();
+
   const prodId = props.navigation.getParam("productId");
   const editedProduct = useSelector(state => 
       state.products.userProducts.find(prod => prod.id === prodId)
@@ -63,22 +67,36 @@ const EditProductScreen = props => {
     formIsValid: !!editedProduct,
   });
 
-  const submitHandler = useCallback(() => {
-    if(!formState.formIsValid) {
-      Alert.alert("Wrong input", "please check the errors in the form.",[
-        {text:"okay"}
-      ]);
-      return;
+  useEffect(() => {
+    if(error) {
+      Alert.alert("An Error occurred", error, [{text:"okay"}]);
     }
-    if(editedProduct) {
-      dispatch(productActions.updateProduct(prodId, formState.inputValues.title, formState.inputValues.description, formState.inputValues.imageUrl)
-      );
-    } else {
-      dispatch(
-        productActions.createProduct(formState.inputValues.title, formState.inputValues.description, formState.inputValues.imageUrl, +formState.inputValues.price)
-      );
+  },[error])
+
+  const submitHandler = useCallback(async () => {
+    try{
+      if(!formState.formIsValid) {
+        Alert.alert("Wrong input", "please check the errors in the form.",[
+          {text:"okay"}
+        ]);
+        return;
+      }
+      setError(null);
+      setIsLoading(true);
+      if(editedProduct) {
+        await dispatch(productActions.updateProduct(prodId, formState.inputValues.title, formState.inputValues.description, formState.inputValues.imageUrl)
+        );
+      } else {
+        await dispatch(
+          productActions.createProduct(formState.inputValues.title, formState.inputValues.description, formState.inputValues.imageUrl, +formState.inputValues.price)
+        );
+      }
+      props.navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
-    props.navigation.goBack();
+    
+    setIsLoading(false);
   },[dispatch, prodId, formState]);
 
   useEffect(() => {
@@ -93,6 +111,17 @@ const EditProductScreen = props => {
       input: inputIdentifier
     });
   },[dispatchFormState]);
+
+  if(isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          color={Colors.primary}
+          size={"large"}
+        />
+      </View>
+    )
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={{flex:1
@@ -179,6 +208,11 @@ EditProductScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
   form: {
     margin: 20
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
