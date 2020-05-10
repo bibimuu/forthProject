@@ -1,10 +1,11 @@
 import React from "react";
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 
 import {Ionicons} from "@expo/vector-icons";
-import { Platform } from "react-native";
+import { useDispatch } from "react-redux";
+import { Platform, SafeAreaView, Button, View } from "react-native";
 
 import EditProductScreen from "../screens/user/EditProductScreen";
 import CartScreen from "../screens/shop/CartScreen";
@@ -13,7 +14,9 @@ import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import AuthScreen from "../screens/user/AuthScreen";
+import StartupScreen from "../screens/user/StartupScreen";
 import Colors from "../constants/Colors";
+import * as authActions from "../store/actions/auth";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -84,6 +87,24 @@ const shopNavigator = createDrawerNavigator({
 },{
   contentOptions: {
     activeTintColor: Colors.primary
+  },
+  contentComponent: props => {
+    const dispatch = useDispatch();
+    return (
+      <View style={{flex:1, paddingTop:20}}>
+        <SafeAreaView forceInset={{top: "always", horizontal: "never"}}>
+          <DrawerNavigatorItems {...props} />
+          <Button 
+            title="Logout" 
+            color={Colors.primary} 
+            onPress={()=>{
+              dispatch(authActions.logout());
+              // props.navigation.navigate("Auth");
+            }} 
+          />
+        </SafeAreaView>
+      </View>
+    );
   }
 })
 
@@ -94,6 +115,7 @@ const AuthNavigator = createStackNavigator({
 });
 
 const MainNavigator = createSwitchNavigator({
+  Startup: StartupScreen,
   Auth: AuthNavigator,
   Shop: shopNavigator
 })
