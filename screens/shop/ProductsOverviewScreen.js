@@ -23,14 +23,14 @@ const ProductOverviewScreen = props => {
       await dispatch(productsActions.fetchProducts());
     } catch (err) {
       setError(err.message);
-    };
+    }
     setIsRefreshing(false);
   },[dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener("willFocus",loadProducts);
+    const unsubscribe = props.navigation.addListener("focus",loadProducts);
     return () => {
-      willFocusSub.remove();
+      unsubscribe();
     };
   },[loadProducts]);
 

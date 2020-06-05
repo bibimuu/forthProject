@@ -72,17 +72,17 @@ export const ProductsNavigator = () => {
 //   defaultNavigationOptions: defaultNavOptions
 // });
 
-const OrderStackNavigator = createStackNavigator();
+const OrdersStackNavigator = createStackNavigator();
 
 export const OrdersNavigator = () => {
   return (
-    <OrderStackNavigator.Navigator screenOptions={defaultNavOptions}>
-      <OrderStackNavigator.Screen
+    <OrdersStackNavigator.Navigator screenOptions={defaultNavOptions}>
+      <OrdersStackNavigator.Screen
         name="Orders"
         component={OrdersScreen}
         options={ordersScreenOptions}
       />
-    </OrderStackNavigator.Navigator>
+    </OrdersStackNavigator.Navigator>
   )
 };
 
@@ -104,6 +104,7 @@ export const OrdersNavigator = () => {
 const AdminStackNavigator = createStackNavigator();
 
 export const AdminNavigator = () => {
+  return(
   <AdminStackNavigator.Navigator screenOptions={defaultNavOptions}>
     <AdminStackNavigator.Screen
       name="UserProducts" 
@@ -116,7 +117,7 @@ export const AdminNavigator = () => {
       options={editProductsScreenOptions}
     />
   </AdminStackNavigator.Navigator>
-};
+  )};
 
 // const AdminNavigator = createStackNavigator({
 //   UserProducts: UserProductsScreen,
@@ -201,7 +202,7 @@ export const ShopNavigator = () => {
         }}
       />
     </ShopDrawerNavigator.Navigator>
-  )
+  );
 };
 
 // const shopNavigator = createDrawerNavigator({
@@ -259,3 +260,4 @@ export const AuthNavigator = () => {
 // })
 
 // export default createAppContainer(MainNavigator);
+// soso@gmail.com
