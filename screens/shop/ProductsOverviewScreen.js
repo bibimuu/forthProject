@@ -106,10 +106,10 @@ return <FlatList
         />
 }
 
-ProductOverviewScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
   return {
   headerTitle: "All Products",
-  headerLeft: (<HeaderButtons HeaderButtonComponent={HeaderButton}>
+  headerLeft: () => (<HeaderButtons HeaderButtonComponent={HeaderButton}>
     <Item 
     title="Menu" 
     iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"} 
@@ -117,7 +117,7 @@ ProductOverviewScreen.navigationOptions = navData => {
       navData.navigation.toggleDrawer();
     }} />
   </HeaderButtons>),
-  headerRight: (<HeaderButtons HeaderButtonComponent={HeaderButton}>
+  headerRight: () => (<HeaderButtons HeaderButtonComponent={HeaderButton}>
     <Item 
     title="cart" 
     iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"} 

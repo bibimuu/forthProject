@@ -148,8 +148,8 @@ const AuthScreen = props => {
   )
 };
 
-AuthScreen.navigationOption = {
-  header: "Authenticate"
+export const screenOptions = {
+  headerTitle: "Authenticate"
 };
 
 const styles = StyleSheet.create({
